@@ -25,11 +25,17 @@ class Asset {
 
 
 
-let assetslist = [
-    new Asset("image_ball", "ball.png", Type.IMAGE),
-    new Asset("image_paddle", "paddleorange.png", Type.IMAGE)
+let assetsList = [
+    new Asset("image_ball", "ball.png", _Type.IMAGE),
+    new Asset("image_paddle", "paddleorange.png", _Type.IMAGE)
 ]
+
 let assets = new createjs.LoadQueue();
-queue.installPlugin(createjs.Sound);
-queue.on("complete", handlecomplete, this);
-queue.loadFile
+assets.installPlugin(createjs.Sound);
+assets.on("complete", handleComplete, this);
+assets.loadManifest(assetsList);
+
+function handleComplete(){
+    console.info("Done loading assets..");
+    game.start();
+}
