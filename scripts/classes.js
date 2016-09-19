@@ -8,6 +8,7 @@ let Direction = {
 let constants = {
     physics: {
         defaultGravity: 1500,
+        ballCollisions: true,
     },
     ball: {
         xBiasMultiplier: 3.5,
@@ -106,9 +107,9 @@ class Ball extends GameObject {
         super.update(deltaTime);
     }
 
-    collide(direction, obj) {
-        console.log(`COLLISION!! DIRECTION: ${direction}`);
-        if (direction == null || obj == null) {
+    collide(direction, obj, collateral = false) {
+        console.log(`COLLISION!! DIRECTION: ${direction} BETWEEN ${this} AND ${obj}`);
+        if (direction == null || obj == null || this == obj) {
             return;
         }
         else if (direction === Direction.TOP || direction === Direction.BOTTOM) {
@@ -121,6 +122,9 @@ class Ball extends GameObject {
             console.log("COLLIDE WITH PADDLE!");
             let diffX = this.center.x - obj.center.x;
             this.vel.x = diffX * constants.ball.xBiasMultiplier;
+        }
+        else if (obj instanceof Ball && !collateral) {
+            obj.collide((direction + 2) % 3, this, true);
         }
     }
 }

@@ -87,6 +87,13 @@ class Game {
         this.gameObjects.balls.forEach(function (ball) {
             _this.staticObjects.forEach(staticobj => _this.checkCollision(ball, staticobj));
             _this.checkCollision(ball, _this.player);
+            if (constants.physics.ballCollisions) {
+                _this.gameObjects.balls.forEach(function (otherball) {
+                    if (ball != otherball) {
+                        _this.checkCollision(ball, otherball);
+                    }
+                });
+            }
         });
     }
 
